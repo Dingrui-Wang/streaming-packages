@@ -4,9 +4,7 @@ A data-driven application that helps users find the optimal streaming package co
 
 ## Demo
 
-<video src="./assets/app.mp4" controls width="640">
-  Demo video for the web app.
-</video>
+https://github.com/user-attachments/assets/64170e92-cfa6-4640-8a3d-f4f4ba556e6d
 
 ## Overview
 
