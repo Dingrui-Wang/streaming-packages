@@ -70,30 +70,36 @@ The package recommendation engine uses a dynamic programming approach to solve t
 
 ## Setup Instructions
 
-### Prerequisites
-- Python 3.8+
-- Node.js 14+
-- PostgreSQL 12+
-- Redis 6+
-
 ### Backend Setup
-1. Create a virtual environment:   ```bash
-   python -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   .\venv\Scripts\activate   # Windows   ```
+1. Create a virtual environment using [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/):   
+   ```bash
+      conda create -n streaming python=3.10
+      conda activate streaming
+   ```
 
-2. Install dependencies:   ```bash
-   pip install -r requirements.txt   ```
+2. Install dependencies:   
+   ```bash
+      pip install -r requirements.txt   
+      cd backend
+   ```
 
-3. Configure environment:   ```bash
-   cp .env.example .env#Edit .env with your configuration   ```
+3. Run backend app:   
+   ```bash
+      python app.py  
+   ```
 
 ### Frontend Setup
-1. Install dependencies:   ```bash
-   npm install   ```
+1. Install dependencies:   
+   ```bash
+      cd .. # back to the root folder (streaming-packages)
+      cd frontend
+      npm install   
+   ```
 
-2. Start development server:   ```bash
-   npm run dev   ```
+2. Start development server:   
+   ```bash
+      npm start 
+   ```
 
 ## API Documentation
 API documentation is available at `/docs` when running the server.
