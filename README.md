@@ -4,7 +4,7 @@ A data-driven application that helps users find the optimal streaming package co
 
 ## Demo
 
-<video src="./assets/app_demo.mp4" controls width="640">
+<video src="./assets/app.mp4" controls width="640">
   Demo video for the web app.
 </video>
 
