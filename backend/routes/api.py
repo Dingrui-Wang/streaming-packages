@@ -40,8 +40,8 @@ def analyze_packages():
                 'monthly_price': p['monthly_price'],
                 'yearly_price': p['yearly_price']
             } for p in min_combo['packages']],
-            'total_yearly_cost': min_combo['yearly_cost'],
-            'total_monthly_cost': min_combo['monthly_cost'],
+            'yearly_cost': min_combo['yearly_cost'],
+            'monthly_cost': min_combo['monthly_cost'],
             'num_packages': min_combo['num_packages'],
             'coverage_percentage': min_combo['coverage_percentage']
         }

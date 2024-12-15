@@ -61,9 +61,11 @@ class PackageAnalyzer:
                 package_sets[package_id] = covered_games
         return package_sets
 
-    def _find_minimum_set_cover(self, game_set: Set[int], package_sets: Dict[int, Set[int]]) -> Dict:
+    def _find_minimum_set_cover(self, game_set: Set[int], _package_sets: Dict[int, Set[int]]) -> Dict:
         """Greedy algorithm for minimum set cover"""
+        package_sets = _package_sets.copy()
         uncovered_games = game_set.copy()
+        total_games = len(uncovered_games)
         selected_packages = []
         total_cost = 0
 
@@ -97,15 +99,23 @@ class PackageAnalyzer:
             del package_sets[best_package_id]
 
         # Check if we found a valid solution
-        if not uncovered_games:
-            return {
+        #if not uncovered_games:
+        total_monthly_cost = 0
+        for p in selected_packages:
+            if p.monthly_price is None:
+                total_monthly_cost = None
+                break
+            total_monthly_cost += p.monthly_price
+
+        coverage_percentage = ((total_games - len(uncovered_games)) / total_games) * 100
+        return {
                 'packages': selected_packages,
                 'yearly_cost': total_cost,
-                'monthly_cost': sum(p.monthly_price for p in selected_packages),
+                'monthly_cost': total_monthly_cost,
                 'num_packages': len(selected_packages),
-                'coverage_percentage': 100.0
+                'coverage_percentage': coverage_percentage
             }
-        return None
+        #return None
 
     def _analyze_individual_packages(self, game_set: Set[int], package_sets: Dict[int, Set[int]]) -> List[Dict]:
         """Analyze coverage of individual packages"""
