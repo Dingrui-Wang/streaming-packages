@@ -2,6 +2,12 @@
 
 A data-driven application that helps users find the optimal streaming package combinations for watching their favorite sports teams.
 
+## Demo
+<video width="640" height="360" controls>
+  <source src="./assets/app_demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 ## Overview
 
 This application solves the complex problem of finding the most cost-effective streaming package combinations by:
