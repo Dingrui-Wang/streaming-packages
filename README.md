@@ -38,7 +38,7 @@ https://github.com/user-attachments/assets/64170e92-cfa6-4640-8a3d-f4f4ba556e6d
    ```bash
       npm start 
    ```
-   
+
 ## Overview
 
 This application solves the complex problem of finding the most cost-effective streaming package combinations by:
@@ -104,11 +104,6 @@ The package recommendation engine uses a dynamic programming approach to solve t
    - CDN integration for static assets
    - Regional API deployment
    - Horizontal scaling during high-traffic periods
-
-
-
-## API Documentation
-API documentation is available at `/docs` when running the server.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
