@@ -6,6 +6,39 @@ A data-driven application that helps users find the optimal streaming package co
 
 https://github.com/user-attachments/assets/64170e92-cfa6-4640-8a3d-f4f4ba556e6d
 
+## Setup Instructions
+
+### Backend Setup
+1. Create a virtual environment using [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/):   
+   ```bash
+      conda create -n streaming python=3.10
+      conda activate streaming
+   ```
+
+2. Install dependencies:   
+   ```bash
+      pip install -r requirements.txt   
+      cd backend
+   ```
+
+3. Run backend app:   
+   ```bash
+      python app.py  
+   ```
+
+### Frontend Setup
+1. Install dependencies:   
+   ```bash
+      cd .. # back to the root folder (streaming-packages)
+      cd frontend
+      npm install   
+   ```
+
+2. Start development server:   
+   ```bash
+      npm start 
+   ```
+   
 ## Overview
 
 This application solves the complex problem of finding the most cost-effective streaming package combinations by:
@@ -72,38 +105,7 @@ The package recommendation engine uses a dynamic programming approach to solve t
    - Regional API deployment
    - Horizontal scaling during high-traffic periods
 
-## Setup Instructions
 
-### Backend Setup
-1. Create a virtual environment using [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/):   
-   ```bash
-      conda create -n streaming python=3.10
-      conda activate streaming
-   ```
-
-2. Install dependencies:   
-   ```bash
-      pip install -r requirements.txt   
-      cd backend
-   ```
-
-3. Run backend app:   
-   ```bash
-      python app.py  
-   ```
-
-### Frontend Setup
-1. Install dependencies:   
-   ```bash
-      cd .. # back to the root folder (streaming-packages)
-      cd frontend
-      npm install   
-   ```
-
-2. Start development server:   
-   ```bash
-      npm start 
-   ```
 
 ## API Documentation
 API documentation is available at `/docs` when running the server.
