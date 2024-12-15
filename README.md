@@ -86,8 +86,7 @@ The package recommendation engine uses a dynamic programming approach to solve t
    pip install -r requirements.txt   ```
 
 3. Configure environment:   ```bash
-   cp .env.example .env
-   # Edit .env with your configuration   ```
+   cp .env.example .env#Edit .env with your configuration   ```
 
 ### Frontend Setup
 1. Install dependencies:   ```bash
