@@ -44,6 +44,16 @@ class PackageAnalyzer:
 
     def _get_team_games(self, teams: List[str]) -> Set[int]:
         """Get set G of all games involving selected teams"""
+        # If teams list is empty, return empty set
+        if not teams:
+            return set()
+        
+        # Optimization: If all teams are selected, return all games
+        all_teams = {game.home_team for game in self.games.values()} | {game.away_team for game in self.games.values()}
+        if set(teams) == all_teams:
+            return set(self.games.keys())
+        
+        # Regular case: find games for selected teams
         game_set = set()
         for game in self.games.values():
             if game.home_team in teams or game.away_team in teams:

@@ -47,16 +47,32 @@ function App() {
     }
   };
 
+  const handleSelectAll = () => {
+    const allTeamOptions = teams.map(team => ({
+      value: team.value,
+      label: team.label
+    }));
+    setSelectedTeams(allTeamOptions.map(option => option.value));
+    handleTeamSelect(allTeamOptions);
+  };
+
   return (
     <div className="App">
       <h1>Streaming Package Comparison</h1>
 
       <div className="team-selector">
         <h2>Select Teams</h2>
+        <button 
+          className="select-all-button" 
+          onClick={handleSelectAll}
+        >
+          Select All Teams (All Games)
+        </button>
         <Select
           isMulti
           options={teams}
           onChange={handleTeamSelect}
+          value={teams.filter(option => selectedTeams.includes(option.value))}
           placeholder="Select multiple teams..."
           className="team-select-container"
           classNamePrefix="team-select"

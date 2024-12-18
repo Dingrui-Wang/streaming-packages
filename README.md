@@ -1,6 +1,6 @@
 # Streaming Package Comparison App
 
-A data-driven application that helps users find the optimal streaming package combinations for watching their favorite sports teams.
+This is an implementation to solve the [CHECK24 GenDev Streaming Package Comparison Challenge](https://github.com/check24-scholarships/check24-best-combination-challenge).
 
 ## Demo
 
