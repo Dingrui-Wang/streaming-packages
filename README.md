@@ -11,32 +11,32 @@ https://github.com/user-attachments/assets/64170e92-cfa6-4640-8a3d-f4f4ba556e6d
 ### Backend Setup
 1. Create a virtual environment using [miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/):   
    ```bash
-      conda create -n streaming python=3.10
-      conda activate streaming
+   conda create -n streaming python=3.10
+   conda activate streaming
    ```
 
 2. Install dependencies:   
    ```bash
-      pip install -r requirements.txt   
-      cd backend
+   pip install -r requirements.txt   
+   cd backend
    ```
 
 3. Run backend app:   
    ```bash
-      python app.py  
+   python app.py  
    ```
 
 ### Frontend Setup
 1. Install dependencies:   
    ```bash
-      cd .. # back to the root folder (streaming-packages)
-      cd frontend
-      npm install   
+   cd .. # back to the root folder (streaming-packages)
+   cd frontend
+   npm install   
    ```
 
 2. Start development server:   
    ```bash
-      npm start 
+   npm start 
    ```
 
 ## Overview
