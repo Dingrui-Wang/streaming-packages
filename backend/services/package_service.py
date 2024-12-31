@@ -30,9 +30,17 @@ class PackageService:
             for p in self.data_loader.packages.values()
         ]
     
-    def analyze_packages(self, teams: List[str]) -> Dict:
+    def analyze_packages(self, teams: List[str], leagues: List[str] = None, 
+                        start_date: str = None, end_date: str = None,
+                        upcoming_only: bool = False) -> Dict:
         try:
-            results = self.package_analyzer.analyze_packages(teams=teams)
+            results = self.package_analyzer.analyze_packages(
+                teams=teams,
+                leagues=leagues,
+                start_date=start_date,
+                end_date=end_date,
+                upcoming_only=upcoming_only
+            )
             
             # Format single packages
             formatted_packages = []
@@ -60,7 +68,9 @@ class PackageService:
                     'yearly_cost': min_combo['yearly_cost'],
                     'monthly_cost': min_combo['monthly_cost'],
                     'num_packages': min_combo['num_packages'],
-                    'coverage_percentage': min_combo['coverage_percentage']
+                    'coverage_percentage': min_combo['coverage_percentage'],
+                    'covered_games': min_combo['covered_games'],
+                    'total_games': min_combo['total_games']
                 }
             else:
                 minimum_combination = None
@@ -75,3 +85,21 @@ class PackageService:
                 'single_packages': [],
                 'minimum_combination': None
             } 
+    
+    def get_all_leagues(self) -> List[str]:
+        leagues = set()
+        for game in self.data_loader.games.values():
+            leagues.add(game.tournament)
+        return sorted(list(leagues)) 
+    
+    def get_filtered_leagues(self, teams: List[str]) -> List[str]:
+        """Get leagues that involve any of the selected teams"""
+        leagues = set()
+        if not teams:
+            # If no teams selected, return all leagues
+            return self.get_all_leagues()
+        
+        for game in self.data_loader.games.values():
+            if game.home_team in teams or game.away_team in teams:
+                leagues.add(game.tournament)
+        return sorted(list(leagues)) 

@@ -12,9 +12,18 @@ def get_teams():
 def analyze_packages():
     data = request.get_json()
     teams = data.get('teams', [])
+    leagues = data.get('leagues', [])
+    date_range = data.get('date_range', {})
+    upcoming_only = data.get('upcomingOnly', False)
     
     # Get analysis results
-    results = package_service.analyze_packages(teams)
+    results = package_service.analyze_packages(
+        teams=teams,
+        leagues=leagues,
+        start_date=date_range.get('start'),
+        end_date=date_range.get('end'),
+        upcoming_only=upcoming_only
+    )
     
     # Format the response
     response = {
@@ -28,7 +37,8 @@ def analyze_packages():
             'yearly_price': r['package']['yearly_price']
         } for r in results['single_packages']],
         
-        'minimum_combination': None
+        'minimum_combination': None,
+        'matched_games': [game.to_dict() for game in results.get('matched_games', [])]
     }
     
     # Add minimum combination if available
@@ -43,11 +53,23 @@ def analyze_packages():
             'yearly_cost': min_combo['yearly_cost'],
             'monthly_cost': min_combo['monthly_cost'],
             'num_packages': min_combo['num_packages'],
-            'coverage_percentage': min_combo['coverage_percentage']
+            'coverage_percentage': min_combo['coverage_percentage'],
+            'covered_games': min_combo['covered_games'],
+            'total_games': min_combo['total_games']
         }
     
     return jsonify(response)
 
 @api_blueprint.route('/packages', methods=['GET'])
 def get_packages():
-    return jsonify(package_service.get_all_packages()) 
+    return jsonify(package_service.get_all_packages())
+
+@api_blueprint.route('/leagues', methods=['GET'])
+def get_leagues():
+    return jsonify(package_service.get_all_leagues())
+
+@api_blueprint.route('/leagues/filtered', methods=['POST'])
+def get_filtered_leagues():
+    data = request.get_json()
+    teams = data.get('teams', [])
+    return jsonify(package_service.get_filtered_leagues(teams)) 

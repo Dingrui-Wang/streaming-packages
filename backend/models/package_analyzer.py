@@ -1,6 +1,7 @@
 from typing import List, Dict, Set
 from itertools import combinations
 from collections import defaultdict
+from datetime import datetime
 
 class PackageAnalyzer:
     def __init__(self, games, packages, offers):
@@ -21,10 +22,12 @@ class PackageAnalyzer:
                 self.package_game_sets[offer.package_id].add(offer.game_id)
                 self.game_packages[offer.game_id].add(offer.package_id)
 
-    def analyze_packages(self, teams: List[str]) -> Dict:
+    def analyze_packages(self, teams: List[str], leagues: List[str] = None,
+                        start_date: str = None, end_date: str = None,
+                        upcoming_only: bool = False) -> Dict:
         """Main analysis function"""
-        # Step 1: Get game set G (all games involving selected teams)
-        game_set = self._get_team_games(teams)
+        # Step 1: Get game set G (all games involving selected teams and matching filters)
+        game_set = self._get_filtered_games(teams, leagues, start_date, end_date, upcoming_only)
         if not game_set:
             return {'single_packages': [], 'minimum_combination': None}
 
@@ -42,23 +45,56 @@ class PackageAnalyzer:
             'minimum_combination': min_packages
         }
 
-    def _get_team_games(self, teams: List[str]) -> Set[int]:
-        """Get set G of all games involving selected teams"""
-        # If teams list is empty, return empty set
-        if not teams:
-            return set()
+    def _get_filtered_games(self, teams: List[str], leagues: List[str] = None,
+                          start_date: str = None, end_date: str = None,
+                          upcoming_only: bool = False) -> Set[int]:
+        """Get set of games matching all specified filters"""
+        current_date = datetime.now()
         
-        # Optimization: If all teams are selected, return all games
-        all_teams = {game.home_team for game in self.games.values()} | {game.away_team for game in self.games.values()}
-        if set(teams) == all_teams:
+        def parse_date(date_str):
+            if not date_str:
+                return None
+            try:
+                return datetime.fromisoformat(date_str)
+            except ValueError:
+                try:
+                    return datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S.%fZ')
+                except ValueError:
+                    try:
+                        return datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ')
+                    except ValueError:
+                        print(f"Could not parse date: {date_str}")
+                        return None
+
+        # Convert date strings to datetime objects if provided
+        start_dt = parse_date(start_date)
+        if upcoming_only and not start_dt:
+            start_dt = current_date
+        end_dt = parse_date(end_date)
+        
+        # If no filters are applied, return all games
+        if not teams and not leagues and not start_dt and not end_dt:
             return set(self.games.keys())
-        
-        # Regular case: find games for selected teams
+            
         game_set = set()
         for game in self.games.values():
-            if game.home_team in teams or game.away_team in teams:
+            matches_team = not teams or game.home_team in teams or game.away_team in teams
+            matches_league = not leagues or game.tournament in leagues
+            matches_date = True
+            
+            if start_dt:
+                matches_date = matches_date and game.date >= start_dt
+            if end_dt:
+                matches_date = matches_date and game.date <= end_dt
+                
+            if matches_team and matches_league and matches_date:
                 game_set.add(game.id)
-        print(f"Found {len(game_set)} games for teams: {teams}")
+                
+        print(f"Found {len(game_set)} games matching filters:")
+        print(f"Teams: {teams}")
+        print(f"Leagues: {leagues}")
+        print(f"Date range: {start_date} to {end_date}")
+        
         return game_set
 
     def _get_package_sets(self, game_set: Set[int]) -> Dict[int, Set[int]]:
@@ -75,7 +111,7 @@ class PackageAnalyzer:
         """Greedy algorithm for minimum set cover"""
         package_sets = _package_sets.copy()
         uncovered_games = game_set.copy()
-        total_games = len(uncovered_games)
+        total_games_nr = len(uncovered_games)
         selected_packages = []
         total_cost = 0
 
@@ -116,14 +152,16 @@ class PackageAnalyzer:
                 total_monthly_cost = None
                 break
             total_monthly_cost += p.monthly_price
-
-        coverage_percentage = ((total_games - len(uncovered_games)) / total_games) * 100
+        covered_games_nr = total_games_nr - len(uncovered_games)
+        coverage_percentage = (covered_games_nr / total_games_nr) * 100
         return {
                 'packages': selected_packages,
                 'yearly_cost': total_cost,
                 'monthly_cost': total_monthly_cost,
                 'num_packages': len(selected_packages),
-                'coverage_percentage': coverage_percentage
+                'coverage_percentage': coverage_percentage,
+                'covered_games': covered_games_nr,
+                'total_games': total_games_nr
             }
         #return None
 

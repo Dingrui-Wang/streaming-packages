@@ -1,10 +1,51 @@
-# Streaming Package Comparison App
+# Combo - Smart Sports Streaming Package Finder
 
-This is an implementation to solve the [CHECK24 GenDev Streaming Package Comparison Challenge](https://github.com/check24-scholarships/check24-best-combination-challenge).
+A smart assistant that helps sports fans find the most cost-effective streaming package combinations for their favorite teams.
 
 ## Demo
 
 https://github.com/user-attachments/assets/64170e92-cfa6-4640-8a3d-f4f4ba556e6d
+
+## Features
+
+- 🎯 Find optimal streaming package combinations
+- 💰 Compare monthly and yearly subscription costs
+- 📊 View coverage analysis for each package
+- 🗓️ Filter by date ranges or upcoming games only
+- 💾 Save and manage search history
+- 🌐 Support for multiple leagues and teams
+- 📱 Responsive design for all devices
+
+## Project Structure
+
+```
+combo/
+├── backend/
+│   ├── data/
+│   │   └── bc_game.csv         # Game data
+│   ├── models/
+│   │   ├── data_loader.py      # Data loading utilities
+│   │   ├── game.py             # Game model
+│   │   └── package_analyzer.py # Analysis engine
+│   ├── routes/
+│   │   └── api.py             # API endpoints
+│   ├── services/
+│   │   └── package_service.py # Business logic
+│   └── app.py                 # Main backend application
+│
+├── frontend/
+│   ├── public/
+│   │   └── index.html
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── SavedSearches.js
+│   │   ├── App.js             # Main React component
+│   │   ├── App.css            # Styles
+│   │   └── index.js           # Entry point
+│   └── package.json
+│
+└── README.md
+```
 
 ## Setup Instructions
 
@@ -29,7 +70,6 @@ https://github.com/user-attachments/assets/64170e92-cfa6-4640-8a3d-f4f4ba556e6d
 ### Frontend Setup
 1. Install dependencies:   
    ```bash
-   cd .. # back to the root folder (streaming-packages)
    cd frontend
    npm install   
    ```
@@ -39,71 +79,33 @@ https://github.com/user-attachments/assets/64170e92-cfa6-4640-8a3d-f4f4ba556e6d
    npm start 
    ```
 
-## Overview
+## Technical Details
 
-This application solves the complex problem of finding the most cost-effective streaming package combinations by:
-1. Analyzing team schedules and broadcast rights
-2. Comparing streaming service offerings
-3. Calculating optimal package combinations
-4. Presenting personalized recommendations
+### Core Algorithm
+The package recommendation engine uses a modified Set Cover algorithm to:
+1. Analyze team schedules and broadcast rights
+2. Calculate optimal package combinations
+3. Minimize total subscription costs
+4. Maximize game coverage
 
-## Technical Architecture
+### Key Features Implementation
+- **Smart Filtering**: Dynamically updates available leagues based on selected teams
+- **Flexible Date Handling**: Supports both date range and upcoming games filters
+- **Cost Analysis**: Compares monthly vs yearly subscription options
+- **Search History**: Locally stores and manages past searches
+- **Coverage Visualization**: Shows percentage of games covered by each package
 
-### Frontend
-- React.js with TypeScript for type safety
-- Redux for state management
-- Material-UI for responsive design
-- React Query for efficient data fetching
+### Performance Optimizations
+- Efficient set operations for package analysis
+- Smart caching of frequently accessed data
+- Optimized league filtering based on team selection
+- Responsive UI updates with minimal re-renders
 
-### Backend
-- Python FastAPI for high-performance REST API
-- PostgreSQL for relational data storage
-- Redis for caching frequently accessed data
-- Celery for background task processing
-
-## Core Algorithm
-
-The package recommendation engine uses a dynamic programming approach to solve the "Set Cover" problem:
-
-1. **Data Collection**
-   - Team schedules from sports league APIs
-   - Streaming service offerings and blackout rules
-   - Real-time pricing data
-
-2. **Optimization Process**
-   - Builds a coverage matrix (Games × Packages)
-   - Uses weighted set cover algorithm to minimize cost
-   - Considers regional blackouts and local availability
-
-3. **Result Generation**
-   - Ranks package combinations by:
-     - Total cost
-     - Coverage percentage
-     - Number of required subscriptions
-
-## Performance Optimizations
-
-### Implemented
-- Redis caching for frequently requested team combinations
-- Batch processing for multiple team analyses
-- Precomputed coverage matrices for popular teams
-- Database indexing on frequently queried fields
-
-### Future Optimizations
-1. **Algorithm Improvements**
-   - Parallel processing for large team sets
-   - Progressive loading of recommendations
-   - Machine learning for personalized rankings
-
-2. **Caching Strategy**
-   - Geographic-based cache partitioning
-   - Predictive caching during peak seasons
-   - Cache warming for trending teams
-
-3. **Infrastructure**
-   - CDN integration for static assets
-   - Regional API deployment
-   - Horizontal scaling during high-traffic periods
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+Based on the [CHECK24 GenDev Streaming Package Comparison Challenge](https://github.com/check24-scholarships/check24-best-combination-challenge).
