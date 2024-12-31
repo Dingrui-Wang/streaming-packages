@@ -4,7 +4,7 @@ A smart assistant that helps sports fans find the most cost-effective streaming 
 
 ## Demo
 
-https://github.com/user-attachments/assets/64170e92-cfa6-4640-8a3d-f4f4ba556e6d
+https://github.com/user-attachments/assets/ce44644d-bc7b-41f0-b1e3-acd82826cc1d
 
 ## Features
 
